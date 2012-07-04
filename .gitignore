@@ -1,0 +1,25 @@
+# OS junk files
+Thumbs.db
+
+# Visual Studio
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Logs
+*.log
+*.unsuccessfulbuild
+
+# Performance analysis files
+*.psess
+*.vsp
+
+# IntelliSense database
+*.sdf
+*.opensdf
+
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
