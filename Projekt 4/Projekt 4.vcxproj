@@ -52,6 +52,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>GLFW.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -60,23 +61,31 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>GLFW.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
     <ClInclude Include="FpsCounter.h" />
+    <ClInclude Include="IRenderingEngine.h" />
+    <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FpsCounter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Simple.frag.glsl" />
+    <None Include="Shaders\Simple.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

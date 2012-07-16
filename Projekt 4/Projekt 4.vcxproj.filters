@@ -21,10 +21,13 @@
     <ClInclude Include="Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Color.h">
+    <ClInclude Include="FpsCounter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FpsCounter.h">
+    <ClInclude Include="IRenderingEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,11 +35,19 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FpsCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RenderingEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Simple.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\Simple.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
