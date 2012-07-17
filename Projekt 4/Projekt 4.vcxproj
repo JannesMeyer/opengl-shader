@@ -73,22 +73,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="FpsCounter.h" />
-    <ClInclude Include="IRenderingEngine.h" />
     <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="Objects\Klein.h" />
+    <ClInclude Include="Objects\Kugel.h" />
+    <ClInclude Include="Objects\Torus.h" />
+    <ClInclude Include="ParametrisierteFlaeche.h" />
     <ClInclude Include="Quaternion.hpp" />
     <ClInclude Include="RenderingEngine.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Vector.h" />
     <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FpsCounter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Objects\Klein.cpp" />
+    <ClCompile Include="Objects\Kugel.cpp" />
+    <ClCompile Include="Objects\Torus.cpp" />
+    <ClCompile Include="ParametrisierteFlaeche.cpp" />
     <ClCompile Include="RenderingEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Simple.f.glsl" />
-    <None Include="Shaders\Simple.v.glsl" />
+    <None Include="Shaders\Lighting.frag" />
+    <None Include="Shaders\Lighting.vert" />
+    <None Include="Shaders\ToonLighting.frag" />
+    <None Include="Shaders\ToonLighting.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,6 +39,14 @@ struct Matrix3 {
         m.z.x = x.z; m.z.y = y.z; m.z.z = z.z;
         return m;
     }
+    Vector3<T> operator * (const Vector3<T>& b) const
+    {
+        Vector3<T> v;
+        v.x = x.x * b.x + x.y * b.y + x.z * b.z;
+        v.y = y.x * b.x + y.y * b.y + y.z * b.z;
+        v.z = z.x * b.x + z.y * b.y + z.z * b.z;
+        return v;
+    }
     const T* Pointer() const
     {
         return &x.x;
@@ -92,6 +100,15 @@ struct Matrix4 {
         m.w.w = w.x * b.x.w + w.y * b.y.w + w.z * b.z.w + w.w * b.w.w;
         return m;
     }
+    Vector4<T> operator * (const Vector4<T>& b) const
+    {
+        Vector4<T> v;
+        v.x = x.x * b.x + x.y * b.y + x.z * b.z + x.w * b.w;
+        v.y = y.x * b.x + y.y * b.y + y.z * b.z + y.w * b.w;
+        v.z = z.x * b.x + z.y * b.y + z.z * b.z + z.w * b.w;
+        v.w = w.x * b.x + w.y * b.y + w.z * b.z + w.w * b.w;
+        return v;
+    }
     Matrix4& operator *= (const Matrix4& b)
     {
         Matrix4 m = *this * b;
@@ -140,33 +157,52 @@ struct Matrix4 {
         m.w.x = 0; m.w.y = 0; m.w.z = 0; m.w.w = 1;
         return m;
     }
+    static Matrix4<T> Scale(T x, T y, T z)
+    {
+        Matrix4 m;
+        m.x.x = x; m.x.y = 0; m.x.z = 0; m.x.w = 0;
+        m.y.x = 0; m.y.y = y; m.y.z = 0; m.y.w = 0;
+        m.z.x = 0; m.z.y = 0; m.z.z = z; m.z.w = 0;
+        m.w.x = 0; m.w.y = 0; m.w.z = 0; m.w.w = 1;
+        return m;
+    }
     static Matrix4<T> Rotate(T degrees)
     {
         T radians = degrees * 3.14159f / 180.0f;
         T s = std::sin(radians);
         T c = std::cos(radians);
         
-        Matrix4 m = Identity();
-        m.x.x =  c; m.x.y = s;
-        m.y.x = -s; m.y.y = c;
+        Matrix4 m;
+        m.x.x =  c; m.x.y = s; m.x.z = 0; m.x.w = 0;
+        m.y.x = -s; m.y.y = c; m.y.z = 0; m.y.w = 0;
+        m.z.x =  0; m.z.y = 0; m.z.z = 1; m.z.w = 0;
+        m.w.x =  0; m.w.y = 0; m.w.z = 0; m.w.w = 1;
         return m;
     }
-    static Matrix4<T> Rotate(T degrees, const vec3& axis)
+    static Matrix4<T> RotateY(T degrees)
     {
         T radians = degrees * 3.14159f / 180.0f;
         T s = std::sin(radians);
         T c = std::cos(radians);
         
-        Matrix4 m = Identity();
-        m.x.x = c + (1 - c) * axis.x * axis.x;
-        m.x.y = (1 - c) * axis.x * axis.y - axis.z * s;
-        m.x.z = (1 - c) * axis.x * axis.z + axis.y * s;
-        m.y.x = (1 - c) * axis.x * axis.y + axis.z * s;
-        m.y.y = c + (1 - c) * axis.y * axis.y;
-        m.y.z = (1 - c) * axis.y * axis.z - axis.x * s;
-        m.z.x = (1 - c) * axis.x * axis.z - axis.y * s;
-        m.z.y = (1 - c) * axis.y * axis.z + axis.x * s;
-        m.z.z = c + (1 - c) * axis.z * axis.z;
+        Matrix4 m;
+        m.x.x =  c; m.x.y = 0; m.x.z = s; m.x.w = 0;
+        m.y.x =  0; m.y.y = 1; m.y.z = 0; m.y.w = 0;
+        m.z.x = -s; m.z.y = 0; m.z.z = c; m.z.w = 0;
+        m.w.x =  0; m.w.y = 0; m.w.z = 0; m.w.w = 1;
+        return m;
+    }
+    static Matrix4<T> RotateX(T degrees)
+    {
+        T radians = degrees * 3.14159f / 180.0f;
+        T s = std::sin(radians);
+        T c = std::cos(radians);
+        
+        Matrix4 m;
+        m.x.x =  1; m.x.y = 0; m.x.z = 0; m.x.w = 0;
+        m.y.x =  0; m.y.y = c; m.y.z =-s; m.y.w = 0;
+        m.z.x =  0; m.z.y = s; m.z.z = c; m.z.w = 0;
+        m.w.x =  0; m.w.y = 0; m.w.z = 0; m.w.w = 1;
         return m;
     }
     static Matrix4<T> Frustum(T left, T right, T bottom, T top, T near, T far)
@@ -182,6 +218,26 @@ struct Matrix4 {
         m.y.x = 0; m.y.y = b; m.y.z = 0; m.y.w = 0;
         m.z.x = c; m.z.y = d; m.z.z = e; m.z.w = -1;
         m.w.x = 0; m.w.y = 0; m.w.z = f; m.w.w = 1;
+        return m;
+    }
+    static Matrix4<T> LookAt(const Vector3<T>& eye,
+                             const Vector3<T>& target,
+                             const Vector3<T>& up)
+    {
+        Vector3<T> z = (eye - target).Normalized();
+        Vector3<T> x = up.Cross(z).Normalized();
+        Vector3<T> y = z.Cross(x).Normalized();
+        
+        Matrix4<T> m;
+        m.x = Vector4<T>(x, 0);
+        m.y = Vector4<T>(y, 0);
+        m.z = Vector4<T>(z, 0);
+        m.w = Vector4<T>(0, 0, 0, 1);
+        
+        Vector4<T> eyePrime = m * Vector4<T>(-eye, 1);
+        m = m.Transposed();
+        m.w = eyePrime;
+        
         return m;
     }
     vec4 x;

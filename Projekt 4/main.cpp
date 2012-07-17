@@ -22,6 +22,7 @@ Settings settings = {800, 600, false, true};
 
 // Rendering engine
 RenderingEngine* renderingEngine;
+float alpha = 0;
 
 /*
  * Print a log message
@@ -52,13 +53,15 @@ void GLFWCALL onKeyEvent(int key, int action) {
 	
 	// Rotate
 	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
-		renderingEngine->rotate(vec3(-1, 0, 0));
+		//renderingEngine->rotate(vec3(-1, 0, 0));
+		alpha += 0.1f;
 	} else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
-		renderingEngine->rotate(vec3(1, 0, 0));
+		//renderingEngine->rotate(vec3(1, 0, 0));
+		alpha -= 0.1f;
 	} else if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
-		renderingEngine->rotate(vec3(0, 1, 0));
+		//renderingEngine->rotate(vec3(0, 1, 0));
 	} else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-		renderingEngine->rotate(vec3(0, -1, 0));
+		//renderingEngine->rotate(vec3(0, -1, 0));
 	}
 
 	// Close window
@@ -73,7 +76,12 @@ void GLFWCALL onKeyEvent(int key, int action) {
  * is held down, not just once per key press.
  */
 void onInput() {
-
+	// Rotate
+	if (glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) {
+		alpha += 0.1f;
+	} else if (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		alpha -= 0.1f;
+	}
 }
 
 /*
@@ -101,7 +109,15 @@ void createWindow() {
 	// 8x AA (doesn't work with OpenGL 3.3)
 	//glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 4);
 
-	if (GL_TRUE != glfwOpenWindow(settings.width, settings.height, 8, 8, 8, 8, 24, 0, GLFW_WINDOW)) {
+	// Define our buffer settings
+	int redBits = 8;
+	int greenBits = 8;
+	int blueBits = 8;
+	int alphaBits = 8;
+	int depthBits = 32;
+	int stencilBits = 0;
+
+	if (GL_TRUE != glfwOpenWindow(settings.width, settings.height, redBits, greenBits, blueBits, alphaBits, depthBits, stencilBits, GLFW_WINDOW)) {
 		glfwTerminate();
 		throw std::runtime_error("Couldn't open an OpenGL window");
 	}
@@ -146,7 +162,6 @@ int main() {
 	// Scene setup
 	try {
 		renderingEngine = new RenderingEngine(settings.width, settings.height);
-		renderingEngine->rotate(vec3(0, 0, 1));
 	} catch(std::exception& e) {
 		std::cout << e.what() << std::endl;
 		return 1;
@@ -160,10 +175,10 @@ int main() {
 		double currentTime = glfwGetTime();
 		double deltaSeconds = currentTime - oldTime;
 		oldTime = currentTime;
-		renderingEngine->updateAnimation(deltaSeconds);
+		//renderingEngine->updateAnimation(deltaSeconds);
 
 		// Draw the scene and swap buffers
-		renderingEngine->render();
+		renderingEngine->render(alpha);
 		glfwSwapBuffers();
 
 		// Handle input

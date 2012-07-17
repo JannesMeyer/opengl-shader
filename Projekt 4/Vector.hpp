@@ -20,6 +20,18 @@ struct Vector2 {
     {
         return Vector2(x - v.x, y - v.y);
     }
+    Vector2 operator-() const
+    {
+        return Vector2(-x, -y);
+    }
+    void operator+=(const Vector2& v)
+    {
+        *this = Vector2(x + v.x, y + v.y);
+    }
+    void operator-=(const Vector2& v)
+    {
+        *this = Vector2(x - v.x, y - v.y);
+    }
     Vector2 operator/(float s) const
     {
         return Vector2(x / s, y / s);
@@ -27,6 +39,14 @@ struct Vector2 {
     Vector2 operator*(float s) const
     {
         return Vector2(x * s, y * s);
+    }
+    void operator/=(float s)
+    {
+        *this = Vector2(x / s, y / s);
+    }
+    void operator*=(float s)
+    {
+        *this = Vector2(x * s, y * s);
     }
     void Normalize()
     {
@@ -167,9 +187,14 @@ template <typename T>
 struct Vector4 {
     Vector4() {}
     Vector4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+    Vector4(const Vector3<T>& v, T w) : x(v.x), y(v.y), z(v.z), w(w) {}
     T Dot(const Vector4& v) const
     {
         return x * v.x + y * v.y + z * v.z + w * v.w;
+    }
+    Vector4 operator-() const
+    {
+        return Vector4(-x, -y, -z, -w);
     }
     Vector4 Lerp(float t, const Vector4& v) const
     {
@@ -177,6 +202,14 @@ struct Vector4 {
                        y * (1 - t) + v.y * t,
                        z * (1 - t) + v.z * t,
                        w * (1 - t) + v.w * t);
+    }
+    Vector4 operator+(const Vector4& v) const
+    {
+        return Vector4(x + v.x, y + v.y,  z + v.z, w + v.w);
+    }
+    Vector4 operator*(T s) const
+    {
+        return Vector4(x * s, y * s, z * s, w * s);
     }
     const T* Pointer() const
     {

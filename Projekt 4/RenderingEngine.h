@@ -1,37 +1,84 @@
 #pragma once
 
-#include "IRenderingEngine.h"
-#include "Quaternion.hpp"
+#include "ParametrisierteFlaeche.h"
+#include "Objects/Kugel.h"
+#include "Objects/Torus.h"
+#include "Objects/Klein.h"
+//#include "Quaternion.hpp"
 
 #include <GL/glew.h>
 #include <vector>
 
-struct Vertex {
-    vec3 position;
-    vec4 color;
+/*
+ * A structure that contains vertex and index buffer handles of an object
+ */
+struct Drawable {
+    GLuint vertexBuffer;
+    GLuint indexBuffer;
+    int indexCount;
 };
 
-struct Animation {
-    Quaternion start;
-    Quaternion end;
-    Quaternion current;
-    double elapsed;
-    double duration;
+/*
+ * Cache all handles
+ */
+struct UniformHandles {
+	// Vertex shader
+    GLint Projection;
+    GLint Modelview;
+    GLint NormalMatrix;
+
+	// Fragment shader
+    GLint LightPosition;
+    GLint AmbientMaterial;
+    GLint DiffuseMaterial;
+    GLint SpecularMaterial;
+    GLint Shininess;
 };
 
-class RenderingEngine : public IRenderingEngine {
+struct AttributeHandles {
+	// Vertices
+    GLint position;
+    GLint normal;
+};
+
+struct ProgramHandles {
+	// Program
+    GLuint program;
+    AttributeHandles attributes;
+    UniformHandles uniforms;
+};
+
+//struct Animation {
+//    Quaternion start;
+//    Quaternion end;
+//    Quaternion current;
+//    double elapsed;
+//    double duration;
+//};
+
+class RenderingEngine {
 private:
-	std::vector<Vertex> cone;
-    std::vector<Vertex> disk;
-    Animation animation;
-    GLuint simpleProgram;
+    // Generate some geometry
+	Drawable torus;
+    Drawable kugel;
+	Drawable klein; // Klein'sche Flasche
 
-    GLuint buildShader(const char* source, GLenum shaderType) const;
-    GLuint buildProgram(const char* vShader, const char* fShader) const;
+	// Program handles
+    ProgramHandles p1;
+
+    ivec2 size; // Viewport size
+
+	Drawable createDrawable(const ParametrisierteFlaeche& surface) const;
+    void renderDrawable(const Drawable& drawable, const ProgramHandles& program) const;
+
+	GLuint buildShader(const char* source, GLenum shaderType) const;
+    //GLuint buildProgram(const char* vShader, const char* fShader) const;
+	void buildProgram(const char* vShader, const char* fShader, ProgramHandles& program) const;
 
 public:
     RenderingEngine(int width, int height);
-    void render() const;
-    void updateAnimation(double timeStep);
-	void rotate(vec3 direction);
+    void render(float theta) const;
+
+	//void updateAnimation(double timeStep);
+	//void rotate(vec3 direction);
 };
