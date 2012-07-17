@@ -30,6 +30,15 @@
     <ClInclude Include="RenderingEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Quaternion.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,10 +52,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Simple.frag.glsl">
+    <None Include="Shaders\Simple.f.glsl">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\Simple.vert.glsl">
+    <None Include="Shaders\Simple.v.glsl">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

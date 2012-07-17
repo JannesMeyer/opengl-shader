@@ -74,9 +74,12 @@
   <ItemGroup>
     <ClInclude Include="FpsCounter.h" />
     <ClInclude Include="IRenderingEngine.h" />
+    <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="Quaternion.hpp" />
     <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="Vector.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FpsCounter.cpp" />
@@ -84,8 +87,8 @@
     <ClCompile Include="RenderingEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\Simple.frag.glsl" />
-    <None Include="Shaders\Simple.vert.glsl" />
+    <None Include="Shaders\Simple.f.glsl" />
+    <None Include="Shaders\Simple.v.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

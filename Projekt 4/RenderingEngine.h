@@ -1,25 +1,37 @@
 #pragma once
 
 #include "IRenderingEngine.h"
+#include "Quaternion.hpp"
 
-#include <gl/glew.h>
+#include <GL/glew.h>
+#include <vector>
 
-static const float RevolutionsPerSecond = 1;
+struct Vertex {
+    vec3 position;
+    vec4 color;
+};
+
+struct Animation {
+    Quaternion start;
+    Quaternion end;
+    Quaternion current;
+    double elapsed;
+    double duration;
+};
 
 class RenderingEngine : public IRenderingEngine {
 private:
-    float currentAngle;
+	std::vector<Vertex> cone;
+    std::vector<Vertex> disk;
+    Animation animation;
     GLuint simpleProgram;
-    GLuint framebuffer;
-    GLuint renderbuffer;
 
     GLuint buildShader(const char* source, GLenum shaderType) const;
     GLuint buildProgram(const char* vShader, const char* fShader) const;
-    void applyOrtho(float maxX, float maxY) const;
-    void applyRotation(float degrees) const;
 
 public:
     RenderingEngine(int width, int height);
     void render() const;
-    void updateRotation(float rotation);
+    void updateAnimation(double timeStep);
+	void rotate(vec3 direction);
 };

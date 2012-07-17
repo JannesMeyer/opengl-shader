@@ -20,6 +20,9 @@ struct Settings {
 // Default settings
 Settings settings = {800, 600, false, true};
 
+// Rendering engine
+RenderingEngine* renderingEngine;
+
 /*
  * Print a log message
  */
@@ -46,6 +49,17 @@ void GLFWCALL onKeyEvent(int key, int action) {
 			log("vsync: off");
 		}
 	}
+	
+	// Rotate
+	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+		renderingEngine->rotate(vec3(-1, 0, 0));
+	} else if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+		renderingEngine->rotate(vec3(1, 0, 0));
+	} else if (key == GLFW_KEY_UP && action == GLFW_PRESS) {
+		renderingEngine->rotate(vec3(0, 1, 0));
+	} else if (key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+		renderingEngine->rotate(vec3(0, -1, 0));
+	}
 
 	// Close window
 	if (key == GLFW_KEY_ESC && action == GLFW_PRESS) {
@@ -59,18 +73,7 @@ void GLFWCALL onKeyEvent(int key, int action) {
  * is held down, not just once per key press.
  */
 void onInput() {
-	// Rotate
-	if (glfwGetKey(GLFW_KEY_LEFT) == GLFW_PRESS) {
-		
-	} else if (glfwGetKey(GLFW_KEY_RIGHT) == GLFW_PRESS) {
-		
-	}
-	// Zoom
-	if (glfwGetKey(GLFW_KEY_UP) == GLFW_PRESS) {
 
-	} else if (glfwGetKey(GLFW_KEY_DOWN) == GLFW_PRESS) {
-
-	}
 }
 
 /*
@@ -141,9 +144,9 @@ int main() {
 	}
 
 	// Scene setup
-	RenderingEngine* renderingEngine;
 	try {
 		renderingEngine = new RenderingEngine(settings.width, settings.height);
+		renderingEngine->rotate(vec3(0, 0, 1));
 	} catch(std::exception& e) {
 		std::cout << e.what() << std::endl;
 		return 1;
@@ -151,7 +154,14 @@ int main() {
 
 	// Main loop
 	FpsCounter fps;
+	double oldTime = glfwGetTime();
 	do {
+		// Update the animation
+		double currentTime = glfwGetTime();
+		double deltaSeconds = currentTime - oldTime;
+		oldTime = currentTime;
+		renderingEngine->updateAnimation(deltaSeconds);
+
 		// Draw the scene and swap buffers
 		renderingEngine->render();
 		glfwSwapBuffers();

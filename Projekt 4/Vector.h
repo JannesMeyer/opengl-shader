@@ -67,11 +67,11 @@ struct Vector3 {
 
 
 	// Addition
-    Vector3 operator+(const Vector3& v) const {
-        return Vector3(x + v.x,
-		               y + v.y,
+	Vector3 operator+(const Vector3& v) const {
+		return Vector3(x + v.x,
+					   y + v.y,
 					   z + v.z);
-    }
+	}
 	Vector3& operator+=(const Vector3& v) {
 		x += v.x;
 		y += v.y;
@@ -82,16 +82,16 @@ struct Vector3 {
 	// TODO: outside of a class
 	/*Vector3 operator+(Vector3& a, Vector3& b) {
 		return Vector3(a.x + b.x,
-		             a.y + b.y,
+					 a.y + b.y,
 					 a.z + b.z);
 	}*/
 
 	// Subtraction
 	Vector3 operator-(const Vector3& v) const {
-        return Vector3(x - v.x,
-		               y - v.y,
+		return Vector3(x - v.x,
+					   y - v.y,
 					   z - v.z);
-    }
+	}
 	void operator-=(const Vector3& v) {
 		x -= v.x;
 		y -= v.y;
@@ -108,8 +108,8 @@ struct Vector3 {
 		//assert(denominator != 0);
 		if (denominator == 0) return;
 		return Vector3(x / denominator,
-		               y / denominator,
-		               z / denominator);
+					   y / denominator,
+					   z / denominator);
 	}
 	void operator/=(T denominator) {
 		//assert(denominator != 0);
@@ -122,8 +122,8 @@ struct Vector3 {
 	// Piecewise multiplication
 	Vector3 operator*(T factor) const {
 		return Vector3(x * factor,
-		               y * factor,
-		               z * factor);
+					   y * factor,
+					   z * factor);
 	}
 	void operator*=(T factor) const {
 		x *= factor;
@@ -135,9 +135,47 @@ struct Vector3 {
 	bool operator==(const Vector3& v) const {
 		return (x == v.x && y == v.y && z == v.z);
 	}
+
+	// Get a pointer to the vector
+	const T* pointer() const {
+		return &x;
+	}
+};
+
+// 4-dimensional vector
+template <typename T>
+struct Vector4 {
+
+	T x;
+	T y;
+	T z;
+	T w;
+
+	// Constructor
+	Vector4() : x(0), y(0), z(0), w(0) {}
+	Vector4(T x, T y, T z, T w) : x(x), y(y), z(z), w(w) {}
+	
+	T dotP(const Vector4& v) const {
+		return x * v.x + y * v.y + z * v.z + w * v.w;
+	}
+	
+	Vector4 lerp(float t, const Vector4& v) const {
+		return Vector4(x * (1 - t) + v.x * t,
+					   y * (1 - t) + v.y * t,
+					   z * (1 - t) + v.z * t,
+					   w * (1 - t) + v.w * t);
+	}
+
+	const T* pointer() const {
+		return &x;
+	}
 };
 
 // Type definitions
 typedef Vector3<int> ivec3;
 typedef Vector3<float> fvec3;
 typedef Vector3<double> vec3;
+
+typedef Vector4<int> ivec4;
+typedef Vector4<float> fvec4;
+typedef Vector4<double> vec4;

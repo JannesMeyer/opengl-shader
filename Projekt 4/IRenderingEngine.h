@@ -1,6 +1,6 @@
-// Interface to the OpenGL renderer
+// Interface to the renderer
 class IRenderingEngine {
 public:
     virtual void render() const = 0;
-    //virtual void updateAnimation(float timeStep) = 0;
+    virtual void updateAnimation(double timeStep) = 0;
 };
