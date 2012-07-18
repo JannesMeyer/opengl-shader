@@ -19,7 +19,7 @@
 // Constructor
 RenderingEngine::RenderingEngine(int width, int height) {
 	// Generate some vertex geometry
-	torus = createDrawable(Torus(1.4, 0.3));
+	torus = createDrawable(Torus(1, 0.5));
 	kugel = createDrawable(Kugel(2));
 	klein = createDrawable(Klein(0.4));
 	
@@ -32,7 +32,7 @@ RenderingEngine::RenderingEngine(int width, int height) {
 
     // Set up some default material parameters
     glUseProgram(p1.program);
-    glUniform3f(p1.uniforms.DiffuseMaterial, 0.75f, 0.25f, 0);
+    glUniform3f(p1.uniforms.DiffuseMaterial, 0, 0, 1);
     glUniform3f(p1.uniforms.AmbientMaterial, 0.04f, 0.04f, 0.04f);
     glUniform3f(p1.uniforms.SpecularMaterial, 0.6f, 0.5f, 0.5f);
     glUniform1f(p1.uniforms.Shininess, 50);
@@ -225,12 +225,12 @@ void RenderingEngine::render(float theta) const {
     glUniformMatrix3fv(p1.uniforms.NormalMatrix, 1, 0, normalMatrix.Pointer());
 
     // Render the Torus
-	//renderDrawable(torus, p1);
+	renderDrawable(torus, p1);
 
     //renderDrawable(kugel, p1);
 
-	glDepthFunc(GL_LESS);
-	renderDrawable(klein, p1);
+	//glDepthFunc(GL_LESS);
+	//renderDrawable(klein, p1);
 }
 
 

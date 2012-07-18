@@ -1,11 +1,11 @@
 static const char* SimpleFragmentShader = STRINGIFY(
 
 in varying vec3 EyespaceNormal;
-in varying vec3 Diffuse;
 
 uniform vec3 LightPosition;
 uniform vec3 AmbientMaterial;
 uniform vec3 SpecularMaterial;
+uniform vec3 DiffuseMaterial;
 uniform float Shininess;
 
 void main(void)
@@ -19,6 +19,7 @@ void main(void)
     float sf = max(0.0, dot(N, H));
     sf = pow(sf, Shininess);
 
+	// Toon effect
     if (df < 0.1) df = 0.0;
     else if (df < 0.3) df = 0.3;
     else if (df < 0.6) df = 0.6;
@@ -26,7 +27,7 @@ void main(void)
     
     sf = step(0.5, sf);
 
-    vec3 color = AmbientMaterial + df * Diffuse + sf * SpecularMaterial;
+    vec3 color = AmbientMaterial + df * DiffuseMaterial + sf * SpecularMaterial;
 
     gl_FragColor = vec4(color, 1);
 }
